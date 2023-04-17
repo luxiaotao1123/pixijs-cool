@@ -5,25 +5,25 @@ class Basket {
 
     #container;
     #box;
+    #offset;
 
-    constructor(app) {
+    constructor(app, offset) {
         this.#container = new PIXI.Container({
         });
-        // this.#container.width = 300;
-        // this.#container.height = window.innerHeight;
-        // this.#container.position.set(0, 0);
         app.stage.addChild(this.#container);
+        this.#offset = offset;
     }
 
     init() {
         this.#box = new PIXI.Graphics();
         this.#box.beginFill(0xDE3249);
-        this.#box.drawRect(0, 0, 300, window.innerHeight);
+        this.#box.drawRect(-this.#offset, 0, this.#offset, window.innerHeight);
         this.#box.endFill();
         this.#container.addChild(this.#box);
 
-        new TWEEDLE.Tween(this.#box).to({ x: 500 }, 2000)
-            .repeat(Infinity)
+        new TWEEDLE.Tween(this.#box).to({ x: this.#offset }, 1000)
+            // .repeat(1)
+            // .repeat(Infinity)
             .yoyo(true)
             .start();
     }

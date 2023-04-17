@@ -14,12 +14,15 @@ const app = new PIXI.Application({
 })
 document.body.appendChild(app.view);
 
+// tween ----------------------------------
+app.ticker.add(() => TWEEDLE.Group.shared.update());
+
 // bgLine --------------------------------------
 const bgContainer = new BgContainer(app);
 bgContainer.buildBgLine();
 
 // backet --------------------------------------
-const basket = new Basket(app);
+const basket = new Basket(app, 300);
 basket.init();
 
 // container ------------------------------
@@ -78,19 +81,6 @@ function resize() {
 }
 window.addEventListener("resize", resize);
 
-
-app.ticker.add(() => TWEEDLE.Group.shared.update());
-// bunny
-const bunny1 = PIXI.Sprite.from("bunny.png");
-bunny1.anchor.set(0.5);
-bunny1.x = 200;
-bunny1.y = 200;
-app.stage.addChild(bunny1);
-
-new TWEEDLE.Tween(bunny1).to({ x: 500 }, 2000)
-  .repeat(Infinity)
-  .yoyo(true)
-  .start();
 </script>
 
 <style lang="less" scoped></style>
