@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js';
 import * as TWEEDLE from 'tweedle.js'
+import IconLoader from './IconLoader';
 
 class Basket {
 
@@ -15,17 +16,29 @@ class Basket {
     }
 
     init() {
+        // box
         this.#box = new PIXI.Graphics();
-        this.#box.beginFill(0xDE3249);
-        this.#box.drawRect(-this.#offset, 0, this.#offset, window.innerHeight);
+        this.#box.beginFill(0x38404E);
+        this.#box.drawRoundedRect(-this.#offset, 0, this.#offset, window.innerHeight, 3);
         this.#box.endFill();
         this.#container.addChild(this.#box);
 
-        new TWEEDLE.Tween(this.#box).to({ x: this.#offset }, 1000)
-            // .repeat(1)
-            // .repeat(Infinity)
-            .yoyo(true)
-            .start();
+        const iconLoader = new IconLoader(this.#container);
+        iconLoader.load();
+
+        // line
+        // let inte = 50;
+        // const graphics = new PIXI.Graphics();
+        // for (let i = 0; i < this.#offset / inte; i++) {
+        //     graphics.lineStyle(1, 0xEEEEEE, .3);
+        //     graphics.beginFill(0xEEEEEE);
+        //     graphics.moveTo(i * inte -this.#offset, 0);
+        //     graphics.lineTo(i * inte -this.#offset, window.innerHeight);
+        //     graphics.endFill();
+        // }
+        // this.#container.addChild(graphics);
+
+        this.runAnimation();
     }
 
     isCollidingWithBasket(sprite) {
@@ -36,6 +49,15 @@ class Basket {
             spriteBounds.y + spriteBounds.height > basketBounds.y &&
             spriteBounds.y < basketBounds.y + basketBounds.height;
     }
+
+    runAnimation() {
+        new TWEEDLE.Tween(this.#container).to({ x: this.#offset }, 1000)
+        // .repeat(1)
+        // .repeat(Infinity)
+        .yoyo(true)
+        .start();
+    }
+
 
 }
 
