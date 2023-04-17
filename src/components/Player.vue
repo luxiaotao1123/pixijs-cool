@@ -1,19 +1,23 @@
-<template>
-</template>
+<template></template>
 
 <script setup>
 import * as PIXI from 'pixi.js';
+import BgContainer from './BgContainer'
 
 // application ------------------------------
 const app = new PIXI.Application({
-    width: window.innerWidth,
-    height: window.innerHeight,
-    background: '#1099bb'
+  width: window.innerWidth,
+  height: window.innerHeight,
+  background: '#1099bb',
 })
 document.body.appendChild(app.view);
 
+// bgLine --------------------------------------
+const bgContainer = new BgContainer(app);
+bgContainer.buildBgLine();
+
 // container ------------------------------
-const container = new PIXI.Container({ 
+const container = new PIXI.Container({
 });
 // container.width = 300;
 // container.height = 500;
@@ -30,22 +34,22 @@ bunny.cursor = 'pointer';
 container.addChild(bunny);
 
 app.ticker.add((delta) => {
-    bunny.rotation += 0.05;
+  bunny.rotation += 0.05;
 });
 
 bunny.on("pointerdown", onDragStart, bunny);
 
 let dragTarget;
 function onDragStart() {
-    this.alpha = 0.5;
-    dragTarget = this;
-    app.stage.on('pointermove', onDragMove);
+  this.alpha = 0.5;
+  dragTarget = this;
+  app.stage.on('pointermove', onDragMove);
 }
 
 function onDragMove(event) {
-    if(dragTarget) {
-        dragTarget.parent.toLocal(event.global, null, dragTarget.position)
-    }
+  if (dragTarget) {
+    dragTarget.parent.toLocal(event.global, null, dragTarget.position)
+  }
 }
 
 app.stage.interactive = true;
@@ -54,20 +58,18 @@ app.stage.on('pointerup', onDragEnd);
 app.stage.on('pointerupoutside', onDragEnd);
 
 function onDragEnd() {
-    if(dragTarget) {
-        app.stage.off('pointermove', onDragMove);
-        dragTarget.alpha = 1;
-        dragTarget = null;
-    }
+  if (dragTarget) {
+    app.stage.off('pointermove', onDragMove);
+    dragTarget.alpha = 1;
+    dragTarget = null;
+  }
 }
 
 
-
 function resize() {
-    app.renderer.resize(window.innerWidth, window.innerHeight);
+  app.renderer.resize(window.innerWidth, window.innerHeight);
 }
 window.addEventListener("resize", resize);
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>
