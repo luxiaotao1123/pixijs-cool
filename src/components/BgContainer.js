@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 
-let lineDefaultAlpha = .6;
+let lineDefaultAlpha = .3;
 let lineDefaultColor = 0xFFFFFF;
 
 class BgContainer {
@@ -14,7 +14,7 @@ class BgContainer {
   }
 
   buildBgLine() {
-    const inte = 50;
+    const inte = 30;
     this.#buildXLine(inte);
     this.#buildYLine(inte);
   }
@@ -58,12 +58,10 @@ class BgContainer {
 
 function onDragMove(event) {
   this.tint = 0xFF0033;
-  this.alpha = 1;
 }
 
 function onDragOut(event) {
   this.tint = lineDefaultColor;
-  this.alpha = lineDefaultAlpha;
 }
 
 export default BgContainer;
