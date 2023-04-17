@@ -2,7 +2,8 @@
 
 <script setup>
 import * as PIXI from 'pixi.js';
-import BgContainer from './BgContainer'
+import BgContainer from './BgContainer';
+import Basket from './Basket'
 
 // application ------------------------------
 const app = new PIXI.Application({
@@ -16,12 +17,12 @@ document.body.appendChild(app.view);
 const bgContainer = new BgContainer(app);
 bgContainer.buildBgLine();
 
+// backet --------------------------------------
+const basket = new Basket(app);
+basket.init();
+
 // container ------------------------------
-const container = new PIXI.Container({
-});
-// container.width = 300;
-// container.height = 500;
-// container.position.set(100, 100);
+const container = new PIXI.Container({});
 app.stage.addChild(container);
 
 // bunny
@@ -31,6 +32,7 @@ bunny.x = app.screen.width / 2;
 bunny.y = app.screen.height / 2;
 bunny.interactive = true;
 bunny.cursor = 'pointer';
+bunny.lastPosition = new PIXI.Point();
 container.addChild(bunny);
 
 app.ticker.add((delta) => {
@@ -48,7 +50,11 @@ function onDragStart() {
 
 function onDragMove(event) {
   if (dragTarget) {
-    dragTarget.parent.toLocal(event.global, null, dragTarget.position)
+    dragTarget.parent.toLocal(event.global, null, dragTarget.position);
+    if (basket.isCollidingWithBasket(dragTarget)) {
+      dragTarget.position.copyFrom(dragTarget.lastPosition);
+    }
+    dragTarget.lastPosition.copyFrom(dragTarget.position);
   }
 }
 
