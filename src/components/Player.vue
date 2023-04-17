@@ -2,6 +2,7 @@
 
 <script setup>
 import * as PIXI from 'pixi.js';
+import * as TWEEDLE from 'tweedle.js';
 import BgContainer from './BgContainer';
 import Basket from './Basket'
 
@@ -76,6 +77,20 @@ function resize() {
   app.renderer.resize(window.innerWidth, window.innerHeight);
 }
 window.addEventListener("resize", resize);
+
+
+app.ticker.add(() => TWEEDLE.Group.shared.update());
+// bunny
+const bunny1 = PIXI.Sprite.from("bunny.png");
+bunny1.anchor.set(0.5);
+bunny1.x = 200;
+bunny1.y = 200;
+app.stage.addChild(bunny1);
+
+new TWEEDLE.Tween(bunny1).to({ x: 500 }, 2000)
+  .repeat(Infinity)
+  .yoyo(true)
+  .start();
 </script>
 
 <style lang="less" scoped></style>
