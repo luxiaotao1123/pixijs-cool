@@ -5,7 +5,7 @@ import axios from 'axios';
 class IconLoader {
 
   #basketContainer;
-  #draggingSprite;
+
 
   constructor(basketContainer) {
     this.#basketContainer = basketContainer;
@@ -35,21 +35,41 @@ class IconLoader {
             // position
             let row = Math.floor(i / columnNum);
             let column = i % columnNum;
-
             let x = column * unitLen + unitLen / 2;
             let y = row * unitLen + unitLen / 2;
-
             character.x = x - offset;
             character.y = y;
 
             // action
             character.interactive = true;
             character.cursor = 'pointer';
-            character
-              .on('pointerdown', this.onDragStart.bind(this))
-              .on('pointerup', this.onDragEnd.bind(this))
-              .on('pointerupoutside', this.onDragEnd.bind(this))
-              .on('pointermove', this.onDragMove.bind(this));
+
+            let draggingSprite;
+
+            character.on('pointerdown', (event) => {
+              draggingSprite = event.currentTarget;
+              draggingSprite.alpha = 0.5;
+              draggingSprite.dragData = event.data;
+              draggingSprite.dragging = true;
+            });
+
+            character.on('pointermove', (event) => {
+              if (draggingSprite && draggingSprite.dragging) {
+                const newPosition = draggingSprite.dragData.getLocalPosition(this.#basketContainer.parent);
+                draggingSprite.x = newPosition.x;
+                draggingSprite.y = newPosition.y;
+              }
+            });
+
+            character.on('pointerup', (event) => {
+              if (draggingSprite) {
+                draggingSprite.alpha = 1;
+                draggingSprite.dragging = false;
+                draggingSprite = null;
+              }
+            });
+
+            // .on('pointerupoutside', this.onDragEnd.bind(this))
 
             this.#basketContainer.addChild(character);
           });
@@ -65,28 +85,6 @@ class IconLoader {
     return await axios.get("asset.json");
   }
 
-  onDragStart(event) {
-    this.#draggingSprite = event.currentTarget;
-    this.#draggingSprite.alpha = 0.5;
-    this.#draggingSprite.dragData = event.data;
-    this.#draggingSprite.dragging = true;
-  }
-
-  onDragMove(event) {
-    if (this.#draggingSprite && this.#draggingSprite.dragging) {
-      const newPosition = this.#draggingSprite.dragData.getLocalPosition(this.#basketContainer.parent);
-      this.#draggingSprite.x = newPosition.x;
-      this.#draggingSprite.y = newPosition.y;
-    }
-  }
-
-  onDragEnd(event) {
-    if (this.#draggingSprite) {
-      this.#draggingSprite.alpha = 1;
-      this.#draggingSprite.dragging = false;
-      this.#draggingSprite = null;
-    }
-  }
 
   createBackup(sprite) {
     const backupSprite = new PIXI.Sprite(sprite.texture.clone());
