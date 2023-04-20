@@ -24,7 +24,7 @@ class Basket {
         this.#container.addChild(this.#box);
 
         const iconLoader = new IconLoader(this.#container);
-        iconLoader.load();
+        iconLoader.load(this.#offset);
 
         // line
         // let inte = 50;

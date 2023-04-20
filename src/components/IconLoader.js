@@ -10,26 +10,42 @@ class IconLoader {
         this.#basketContainer = basketContainer;
     }
 
-    load() {
+    load(offset) {
+        let containerWidth = this.#basketContainer.width;
+        let containerHeight = this.#basketContainer.height;
+        let columnNum = Math.floor(6);
+        let unitLen = containerWidth / columnNum;
+
         this.requestAsset().then(res => {
-            for (let item of res.data.list) {
-                PIXI.Assets.add(item.name, item.src);
+            let list = res.data.list;
+            if (list?.length > 0) {
+                for (let item of list) {
+                    PIXI.Assets.add(item.name, item.src);
+                }
+                const texturesPromise = PIXI.Assets.backgroundLoad(list.map(e => {
+                    return e.name;
+                }));
+                for (let i = 0; i<list.length; i++) {
+                    PIXI.Assets.load(list[i].name).then((texture) => {
+                        const character = new PIXI.Sprite(texture);
+                        character.anchor.set(0.5);
+                        character.scale.set(0.2);
+
+                        let row = Math.floor(i / columnNum);
+                        let column = i % columnNum;
+    
+                        let x = column * unitLen + unitLen / 2;
+                        let y = row * unitLen + unitLen / 2;
+
+                        character.x = x - offset;
+                        character.y = y;
+                        character.interactive = true;
+                        character.cursor = 'pointer';
+                        this.#basketContainer.addChild(character);
+                    });
+                }
             }
-            const texturesPromise = PIXI.Assets.backgroundLoad(res.data.list.map(e => {
-                return e.name;
-            }));
-            for (let item of res.data.list) {
-                PIXI.Assets.load(item.name).then((texture) => {
-                    const character = new PIXI.Sprite(texture);
-                    character.anchor.set(0.5);
-                    character.scale.set(0.5);
-                    character.x = this.#basketContainer.width / 2;
-                    character.y = this.#basketContainer.height / 2;
-                    character.interactive = true;
-                    character.cursor = 'pointer';
-                    this.#basketContainer.addChild(character);
-                });
-            }
+            
 
         })
 
