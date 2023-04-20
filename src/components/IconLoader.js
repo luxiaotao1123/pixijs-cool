@@ -6,7 +6,6 @@ class IconLoader {
 
   #basketContainer;
 
-
   constructor(basketContainer) {
     this.#basketContainer = basketContainer;
   }
@@ -52,14 +51,12 @@ class IconLoader {
               draggingSprite.alpha = 0.5;
               draggingSprite.dragData = event.data;
               draggingSprite.dragging = true;
-            });
 
-            character.on('pointermove', (event) => {
-              if (draggingSprite && draggingSprite.dragging) {
-                const newPosition = draggingSprite.dragData.getLocalPosition(this.#basketContainer.parent);
-                draggingSprite.x = newPosition.x;
-                draggingSprite.y = newPosition.y;
-              }
+              this.#basketContainer.parent.on('pointermove', (event) => {
+                if (draggingSprite && draggingSprite.dragging) {
+                  draggingSprite.parent.toLocal(event.global, null, draggingSprite.position);
+                }
+              });
             });
 
             character.on('pointerup', (event) => {
