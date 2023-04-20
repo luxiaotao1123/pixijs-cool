@@ -47,6 +47,7 @@ class IconLoader {
             let draggingSprite;
 
             character.on('pointerdown', (event) => {
+              // draggingSprite = new PIXI.Sprite(event.currentTarget.texture.clone());
               draggingSprite = event.currentTarget;
               draggingSprite.alpha = 0.5;
               draggingSprite.dragData = event.data;
