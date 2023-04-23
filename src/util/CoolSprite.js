@@ -30,7 +30,7 @@ class CoolSprite extends PIXI.Sprite {
         this.#container.addChild(this);
 
         // event
-        this.on("pointerdown", this.onDragStart, this);
+        this.resetDragEvent();
 
         // callback
         if (callBack) {
@@ -39,18 +39,35 @@ class CoolSprite extends PIXI.Sprite {
         return this;
     }
 
-    onDragStart(event) {
-        this.alpha = 0.5;
-        this.dragTarget = event.currentTarget;
-        this.#container.parent.off('pointermove');
-        this.#container.parent.on('pointermove', this.onDragMove, this);
+    resetDragEvent() {
+        this.off('pointerup');
+        this.off('pointerdown');
+        this.on("pointerdown", this.onDragStart, this);
+    }
 
-        this.#container.parent.off('pointerup');
-        this.#container.parent.on('pointerup', this.onDragEnd.bind(this));
+    #lastPointerDownTime = 0;
+    onDragStart(event) {
+        let dblclick = false;
+        const currentTime = Date.now();
+        if (currentTime - this.#lastPointerDownTime < 300) {
+            dblclick = true;
+        }
+        this.#lastPointerDownTime = currentTime;
+
+        if (!dblclick) {
+            this.alpha = 0.5;
+            this.dragTarget = event.currentTarget;
+            this.#container.parent.off('pointermove');
+            this.#container.parent.on('pointermove', this.onDragMove, this);
+    
+            this.#container.parent.off('pointerup');
+            this.#container.parent.on('pointerup', this.onDragEnd.bind(this));
+        } else {
+           this.dblclick(event);
+        }
     }
 
     onDragMove(event) {
-        // console.log(PIXI.utils.uid());
         if (this.dragTarget) {
             this.dragTarget.parent.toLocal(event.global, null, this.dragTarget.position);
             if (this.#basket.isCollidingWithBasket(this.dragTarget)) {
@@ -68,10 +85,8 @@ class CoolSprite extends PIXI.Sprite {
         }
     }
 
-    resetDragEvent() {
-        this.off('pointerup');
-        this.off('pointerdown');
-        this.on("pointerdown", this.onDragStart, this);
+    dblclick(event) {
+         console.log(PIXI.utils.uid());
     }
 
 }
