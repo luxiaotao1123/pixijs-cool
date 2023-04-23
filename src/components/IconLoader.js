@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js';
 import * as TWEEDLE from 'tweedle.js';
 import axios from 'axios';
+import CoolSprite from '../util/CoolSprite';
 
 class IconLoader {
 
