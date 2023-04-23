@@ -56,14 +56,14 @@ class IconLoader {
               // clone
               draggingSprite = new CoolSprite(event.currentTarget.texture.clone());
               draggingSprite.preprocss(this.#mapContainer, function(sprite) {
+                sprite.scale.set(originSprite.scale.x);
 
+                sprite.dragData = event.data;
+                sprite.dragging = true;
+                sprite.x = originSprite.x;
+                sprite.y = originSprite.y;
               });
-              draggingSprite.scale.set(originSprite.scale.x);
-
-              draggingSprite.dragData = event.data;
-              draggingSprite.dragging = true;
-              draggingSprite.x = originSprite.x;
-              draggingSprite.y = originSprite.y;
+            
               this.#basketContainer.parent.addChild(draggingSprite);
 
               this.#basketContainer.parent.on('pointermove', (event) => {
@@ -73,13 +73,15 @@ class IconLoader {
               });
 
               draggingSprite.on('pointerup', (event) => {
+                this.#basketContainer.parent.off('pointermove');
                 if (originSprite) {
                   originSprite.alpha = 1;
                   originSprite = null;
                 }
                 if (draggingSprite) {
-                  if (this.isCollidingWithBasket(draggingSprite)) {
-                    this.#basketContainer.parent.removeChild(draggingSprite);
+                  this.#basketContainer.parent.removeChild(draggingSprite);
+                  if (!this.isCollidingWithBasket(draggingSprite)) {
+                    this.#mapContainer.addChild(draggingSprite);
                   }
                   draggingSprite.dragging = false;
                   draggingSprite = null;
