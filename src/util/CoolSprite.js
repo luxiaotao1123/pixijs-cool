@@ -32,9 +32,6 @@ class CoolSprite extends PIXI.Sprite {
         // event
         this.on("pointerdown", this.onDragStart, this);
 
-        this.#container.parent.on('pointerup', this.onDragEnd.bind(this));
-        this.#container.parent.on('pointerupoutside', this.onDragEnd.bind(this));
-
         // callback
         if (callBack) {
             callBack(this);
@@ -46,9 +43,13 @@ class CoolSprite extends PIXI.Sprite {
         this.alpha = 0.5;
         this.dragTarget = event.currentTarget;;
         this.#container.parent.on('pointermove', this.onDragMove, this);
+
+        this.#container.parent.off('pointerup');
+        this.#container.parent.on('pointerup', this.onDragEnd.bind(this));
     }
 
     onDragMove(event) {
+        // console.log(PIXI.utils.uid());
         if (this.dragTarget) {
             this.dragTarget.parent.toLocal(event.global, null, this.dragTarget.position);
             if (this.#basket.isCollidingWithBasket(this.dragTarget)) {
@@ -67,10 +68,9 @@ class CoolSprite extends PIXI.Sprite {
     }
 
     resetDragEvent() {
+        this.off('pointerup');
+        this.off('pointerdown');
         this.on("pointerdown", this.onDragStart, this);
-
-        this.#container.parent.on('pointerup', this.onDragEnd.bind(this));
-        this.#container.parent.on('pointerupoutside', this.onDragEnd.bind(this));
     }
 
 }

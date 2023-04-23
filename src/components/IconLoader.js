@@ -84,6 +84,7 @@ class IconLoader {
                   this.#basketContainer.parent.removeChild(draggingSprite);
                   if (!this.isCollidingWithBasket(draggingSprite)) {
                     this.#mapContainer.addChild(draggingSprite);
+                    draggingSprite.resetDragEvent();
                   }
                   draggingSprite.dragging = false;
                   draggingSprite = null;
