@@ -43,54 +43,61 @@ class IconLoader {
             character.interactive = true;
             character.cursor = 'pointer';
 
+            let originSprite;
             let draggingSprite;
 
             character.on('pointerdown', (event) => {
-              // draggingSprite = new PIXI.Sprite(event.currentTarget.texture.clone());
-              draggingSprite = event.currentTarget;
-              draggingSprite.alpha = 0.5;
+              originSprite = event.currentTarget;
+              originSprite.alpha = 0.5;
+
+              draggingSprite = new PIXI.Sprite(event.currentTarget.texture.clone());
               draggingSprite.dragData = event.data;
               draggingSprite.dragging = true;
+              draggingSprite.anchor.set(0.5);
+              draggingSprite.scale.set(originSprite.scale.x);
+              draggingSprite.x = originSprite.x;
+              draggingSprite.y = originSprite.y;
+              this.#basketContainer.parent.addChild(draggingSprite);
+              draggingSprite.interactive = true;
+              draggingSprite.cursor = 'pointer';
 
               this.#basketContainer.parent.on('pointermove', (event) => {
                 if (draggingSprite && draggingSprite.dragging) {
                   draggingSprite.parent.toLocal(event.global, null, draggingSprite.position);
                 }
               });
-            });
 
-            character.on('pointerup', (event) => {
-              if (draggingSprite) {
-                draggingSprite.alpha = 1;
-                draggingSprite.dragging = false;
-                draggingSprite = null;
-              }
+              draggingSprite.on('pointerup', (event) => {
+                if (originSprite) {
+                  originSprite.alpha = 1;
+                  originSprite = null;
+                }
+                if (draggingSprite) {
+                  if (this.isCollidingWithBasket(draggingSprite)) {
+                    this.#basketContainer.parent.removeChild(draggingSprite);
+                  }
+                  draggingSprite.dragging = false;
+                  draggingSprite = null;
+                }
+              });
             });
-
-            // .on('pointerupoutside', this.onDragEnd.bind(this))
 
             this.#basketContainer.addChild(character);
           });
         }
       }
 
-
     })
-
   }
 
   async requestAsset() {
     return await axios.get("asset.json");
   }
 
-
-  createBackup(sprite) {
-    const backupSprite = new PIXI.Sprite(sprite.texture.clone());
-    backupSprite.anchor.set(0.5);
-    backupSprite.scale.set(sprite.scale.x);
-    backupSprite.x = sprite.x;
-    backupSprite.y = sprite.y;
-    this.#basketContainer.addChild(backupSprite);
+  isCollidingWithBasket(sprite) {
+    const spriteBounds = sprite.getBounds();
+    const basketBounds = this.#basketContainer.getBounds();
+    return spriteBounds.x < basketBounds.x + basketBounds.width;
   }
 
 }

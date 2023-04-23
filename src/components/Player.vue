@@ -4,7 +4,8 @@
 import * as PIXI from 'pixi.js';
 import * as TWEEDLE from 'tweedle.js';
 import BgContainer from './BgContainer';
-import Basket from './Basket'
+import Basket from './Basket';
+import CoolSprite from '../util/CoolSprite';
 
 // application ------------------------------
 const app = new PIXI.Application({
@@ -26,22 +27,21 @@ const basket = new Basket(app, 300);
 basket.init();
 
 // container ------------------------------
-const container = new PIXI.Container({});
+const container = new PIXI.Container();
 app.stage.addChild(container);
 
 // bunny
-const bunny = PIXI.Sprite.from("bunny.png");
-bunny.anchor.set(0.5);
-bunny.x = app.screen.width / 2;
-bunny.y = app.screen.height / 2;
-bunny.interactive = true;
-bunny.cursor = 'pointer';
-bunny.lastPosition = new PIXI.Point();
-container.addChild(bunny);
+// const bunny = PIXI.Sprite.from("bunny.png");
+const bunny = CoolSprite.from("bunny.png");
+bunny.preprocss(container, function (that) {
+  that.x = app.screen.width / 2;
+  that.y = app.screen.height / 2;
 
-app.ticker.add((delta) => {
-  bunny.rotation += 0.05;
+  app.ticker.add((delta) => {
+    that.rotation += 0.05;
+  });
 });
+
 
 bunny.on("pointerdown", onDragStart, bunny);
 
