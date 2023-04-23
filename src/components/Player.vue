@@ -5,6 +5,7 @@ import * as PIXI from 'pixi.js';
 import * as TWEEDLE from 'tweedle.js';
 import BgContainer from './BgContainer';
 import Basket from './Basket';
+import IconLoader from './IconLoader';
 import CoolSprite from '../util/CoolSprite';
 
 // application ------------------------------
@@ -26,17 +27,22 @@ app.ticker.add(() => TWEEDLE.Group.shared.update());
 const bgContainer = new BgContainer(app);
 bgContainer.buildBgLine();
 
-// backet --------------------------------------
-const basket = new Basket(app, 300);
-basket.init();
+// mapContainer ------------------------------
+const mapContainer = new PIXI.Container();
+app.stage.addChild(mapContainer);
 
-// container ------------------------------
-const container = new PIXI.Container();
-app.stage.addChild(container);
+// backet --------------------------------------
+const basketWidth = 300;
+const basket = new Basket(app, basketWidth);
+const basketContainer = basket.init();
+
+// iconLoader ------------------------------
+const iconLoader = new IconLoader(basketContainer);
+iconLoader.load(basketWidth);
 
 // bunny
 const bunny = CoolSprite.from("bunny.png").setBasket(basket);
-bunny.preprocss(container, function (that) {
+bunny.preprocss(mapContainer, function (that) {
   that.x = app.screen.width / 2;
   that.y = app.screen.height / 2;
 

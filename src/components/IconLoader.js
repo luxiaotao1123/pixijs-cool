@@ -11,7 +11,7 @@ class IconLoader {
     this.#basketContainer = basketContainer;
   }
 
-  load(offset) {
+  load() {
     let containerWidth = this.#basketContainer.width;
     let containerHeight = this.#basketContainer.height;
     let columnNum = Math.floor(6);
@@ -37,7 +37,7 @@ class IconLoader {
             let column = i % columnNum;
             let x = column * unitLen + unitLen / 2;
             let y = row * unitLen + unitLen / 2;
-            character.x = x - offset;
+            character.x = x;
             character.y = y;
 
             // action
@@ -52,10 +52,12 @@ class IconLoader {
               originSprite.alpha = 0.5;
 
               draggingSprite = new PIXI.Sprite(event.currentTarget.texture.clone());
-              draggingSprite.dragData = event.data;
-              draggingSprite.dragging = true;
+              // draggingSprite.preprocss();
               draggingSprite.anchor.set(0.5);
               draggingSprite.scale.set(originSprite.scale.x);
+
+              draggingSprite.dragData = event.data;
+              draggingSprite.dragging = true;
               draggingSprite.x = originSprite.x;
               draggingSprite.y = originSprite.y;
               this.#basketContainer.parent.addChild(draggingSprite);

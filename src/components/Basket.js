@@ -13,19 +13,15 @@ class Basket {
         });
         app.stage.addChild(this.#container);
         this.#offset = offset;
-        this.#offset = 0;
     }
 
     init() {
         // box
         this.#box = new PIXI.Graphics();
         this.#box.beginFill(0x38404E);
-        this.#box.drawRoundedRect(-this.#offset, 0, 300, window.innerHeight, 3);
+        this.#box.drawRoundedRect(0, 0, this.#offset, window.innerHeight, 3);
         this.#box.endFill();
         this.#container.addChild(this.#box);
-
-        const iconLoader = new IconLoader(this.#container);
-        iconLoader.load(this.#offset);
 
         // line
         // let inte = 50;
@@ -39,7 +35,9 @@ class Basket {
         // }
         // this.#container.addChild(graphics);
 
-        this.runAnimation();
+        // this.runAnimation();
+
+        return this.#container;
     }
 
     isCollidingWithBasket(sprite) {
