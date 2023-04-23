@@ -13,6 +13,10 @@ const app = new PIXI.Application({
   height: window.innerHeight,
   background: '#1099bb',
 })
+
+app.stage.interactive = true;
+app.stage.hitArea = app.screen;
+
 document.body.appendChild(app.view);
 
 // tween ----------------------------------
@@ -31,8 +35,7 @@ const container = new PIXI.Container();
 app.stage.addChild(container);
 
 // bunny
-// const bunny = PIXI.Sprite.from("bunny.png");
-const bunny = CoolSprite.from("bunny.png");
+const bunny = CoolSprite.from("bunny.png").setBasket(basket);
 bunny.preprocss(container, function (that) {
   that.x = app.screen.width / 2;
   that.y = app.screen.height / 2;
@@ -42,40 +45,7 @@ bunny.preprocss(container, function (that) {
   });
 });
 
-
-bunny.on("pointerdown", onDragStart, bunny);
-
-let dragTarget;
-function onDragStart() {
-  this.alpha = 0.5;
-  dragTarget = this;
-  app.stage.on('pointermove', onDragMove);
-}
-
-function onDragMove(event) {
-  if (dragTarget) {
-    dragTarget.parent.toLocal(event.global, null, dragTarget.position);
-    if (basket.isCollidingWithBasket(dragTarget)) {
-      dragTarget.position.copyFrom(dragTarget.lastPosition);
-    }
-    dragTarget.lastPosition.copyFrom(dragTarget.position);
-  }
-}
-
-app.stage.interactive = true;
-app.stage.hitArea = app.screen;
-app.stage.on('pointerup', onDragEnd);
-app.stage.on('pointerupoutside', onDragEnd);
-
-function onDragEnd() {
-  if (dragTarget) {
-    app.stage.off('pointermove', onDragMove);
-    dragTarget.alpha = 1;
-    dragTarget = null;
-  }
-}
-
-
+// resize
 function resize() {
   app.renderer.resize(window.innerWidth, window.innerHeight);
 }
