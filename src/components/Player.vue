@@ -8,6 +8,13 @@ import Basket from './Basket';
 import IconLoader from './IconLoader';
 import CoolSprite from '../util/CoolSprite';
 
+const props = defineProps({
+  title: {
+    type: String,
+  }
+})
+console.info(props.title);
+
 // application ------------------------------
 const app = new PIXI.Application({
   width: window.innerWidth,
