@@ -7,10 +7,12 @@ class IconLoader {
 
   #basketContainer;
   #mapContainer;
+  #basket;
 
-  constructor(basketContainer, mapContainer) {
+  constructor(basketContainer, mapContainer, basket) {
     this.#basketContainer = basketContainer;
     this.#mapContainer = mapContainer;
+    this.#basket = basket;
   }
 
   load() {
@@ -54,7 +56,7 @@ class IconLoader {
               originSprite.alpha = 0.5;
 
               // clone
-              draggingSprite = new CoolSprite(event.currentTarget.texture.clone());
+              draggingSprite = new CoolSprite(event.currentTarget.texture.clone()).setBasket(this.#basket);
               draggingSprite.preprocss(this.#mapContainer, function(sprite) {
                 sprite.scale.set(originSprite.scale.x);
 

@@ -37,7 +37,7 @@ const basket = new Basket(app, basketWidth);
 const basketContainer = basket.init();
 
 // iconLoader ------------------------------
-const iconLoader = new IconLoader(basketContainer, mapContainer);
+const iconLoader = new IconLoader(basketContainer, mapContainer, basket);
 iconLoader.load();
 
 // bunny
