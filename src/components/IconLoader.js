@@ -6,9 +6,11 @@ import CoolSprite from '../util/CoolSprite';
 class IconLoader {
 
   #basketContainer;
+  #mapContainer;
 
-  constructor(basketContainer) {
+  constructor(basketContainer, mapContainer) {
     this.#basketContainer = basketContainer;
+    this.#mapContainer = mapContainer;
   }
 
   load() {
@@ -51,9 +53,11 @@ class IconLoader {
               originSprite = event.currentTarget;
               originSprite.alpha = 0.5;
 
-              draggingSprite = new PIXI.Sprite(event.currentTarget.texture.clone());
-              // draggingSprite.preprocss();
-              draggingSprite.anchor.set(0.5);
+              // clone
+              draggingSprite = new CoolSprite(event.currentTarget.texture.clone());
+              draggingSprite.preprocss(this.#mapContainer, function(sprite) {
+
+              });
               draggingSprite.scale.set(originSprite.scale.x);
 
               draggingSprite.dragData = event.data;
@@ -61,8 +65,6 @@ class IconLoader {
               draggingSprite.x = originSprite.x;
               draggingSprite.y = originSprite.y;
               this.#basketContainer.parent.addChild(draggingSprite);
-              draggingSprite.interactive = true;
-              draggingSprite.cursor = 'pointer';
 
               this.#basketContainer.parent.on('pointermove', (event) => {
                 if (draggingSprite && draggingSprite.dragging) {

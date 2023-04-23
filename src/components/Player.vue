@@ -37,8 +37,8 @@ const basket = new Basket(app, basketWidth);
 const basketContainer = basket.init();
 
 // iconLoader ------------------------------
-const iconLoader = new IconLoader(basketContainer);
-iconLoader.load(basketWidth);
+const iconLoader = new IconLoader(basketContainer, mapContainer);
+iconLoader.load();
 
 // bunny
 const bunny = CoolSprite.from("bunny.png").setBasket(basket);

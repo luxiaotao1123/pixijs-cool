@@ -42,6 +42,13 @@ class CoolSprite extends PIXI.Sprite {
         return this;
     }
 
+    resetDragEvent() {
+        this.on("pointerdown", this.onDragStart, this);
+
+        this.#container.parent.on('pointerup', this.onDragEnd.bind(this));
+        this.#container.parent.on('pointerupoutside', this.onDragEnd.bind(this));
+    }
+
     onDragStart(event) {
         this.alpha = 0.5;
         this.dragTarget = event.currentTarget;;
