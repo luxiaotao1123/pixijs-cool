@@ -1,7 +1,6 @@
 import * as PIXI from 'pixi.js';
-import * as TWEEDLE from 'tweedle.js';
-import axios from 'axios';
 import CoolSprite from '../util/CoolSprite';
+import { getAsset } from '../api/draw/index'
 
 class IconLoader {
 
@@ -21,7 +20,7 @@ class IconLoader {
     let columnNum = Math.floor(6);
     let unitLen = containerWidth / columnNum;
 
-    this.requestAsset().then(res => {
+    getAsset().then(res => {
       let list = res.data.list;
       if (list?.length > 0) {
         for (let item of list) {
@@ -98,10 +97,6 @@ class IconLoader {
       }
 
     })
-  }
-
-  async requestAsset() {
-    return await axios.get("asset.json");
   }
 
   isCollidingWithBasket(sprite) {

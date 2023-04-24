@@ -21,6 +21,7 @@ const app = new PIXI.Application({
   width: window.innerWidth,
   height: window.innerHeight,
   background: '#1099bb',
+  antialias: true,
 })
 
 app.stage.interactive = true;
