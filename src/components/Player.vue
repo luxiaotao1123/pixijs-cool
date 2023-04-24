@@ -25,6 +25,8 @@ const app = new PIXI.Application({
 app.stage.interactive = true;
 app.stage.hitArea = app.screen;
 
+globalThis.__PIXI_APP__ = app;
+
 document.body.appendChild(app.view);
 
 // tween ----------------------------------
