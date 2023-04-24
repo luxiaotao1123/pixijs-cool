@@ -7,6 +7,7 @@ import BgContainer from './BgContainer';
 import Basket from './Basket';
 import IconLoader from './IconLoader';
 import CoolSprite from '../util/CoolSprite';
+import LinePainter from '../util/LinePainter';
 
 const props = defineProps({
   title: {
@@ -48,6 +49,13 @@ const basketContainer = basket.init();
 // iconLoader ------------------------------
 const iconLoader = new IconLoader(basketContainer, mapContainer, basket);
 iconLoader.load();
+
+// linePainter ------------------------------
+const linePainter = new LinePainter(app);
+setTimeout(() => {
+  linePainter.draw(mapContainer);
+}, 2000)
+
 
 // bunny
 const bunny = CoolSprite.from("bunny.png").setBasket(basket);
