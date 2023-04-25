@@ -8,6 +8,7 @@ import Basket from './Basket';
 import IconLoader from './IconLoader';
 import CoolSprite from '../util/CoolSprite';
 import LinePainter from '../util/LinePainter';
+import { Configuration, OpenAIApi } from 'openai'
 
 const props = defineProps({
   title: {
@@ -74,6 +75,31 @@ function resize() {
   app.renderer.resize(window.innerWidth, window.innerHeight);
 }
 window.addEventListener("resize", resize);
+
+// openapi
+const config = new Configuration({
+  organization: "org-GSDrqLKmjbrk4eLEw3UOq6XW",
+  apiKey: "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"
+})
+delete config.baseOptions.headers['User-Agent'];
+const openai = new OpenAIApi(config)
+
+async function gpt(msg) {
+  const res = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",
+    messages: [
+      {
+        role: "user",
+        content: msg
+      }
+    ]
+  })
+  return res.data.choices[0].message?.content;
+}
+
+gpt("hello rebot").then(res => {
+  console.log(res);
+});
 
 </script>
 
