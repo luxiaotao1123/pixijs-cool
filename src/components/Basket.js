@@ -18,6 +18,7 @@ class Basket {
     init() {
         // box
         this.#box = new PIXI.Graphics();
+        this.#box.name = "bg";
         this.#box.beginFill(0x38404E);
         this.#box.drawRoundedRect(0, 0, this.#offset, window.innerHeight, 3);
         this.#box.endFill();

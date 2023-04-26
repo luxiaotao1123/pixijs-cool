@@ -119,26 +119,38 @@ class IconLoader {
     hrLine.moveTo(0, hrHeight);
     hrLine.lineTo(baskWidth, hrHeight);
     hrLine.alpha = .8;
+    hrLine.interactive = true;
+    hrLine.cursor = 'pointer';
     this.#basketContainer.addChild(hrLine);
     return hrHeight;
   }
 
   newReact(x, y) {
-    const shadowFilter = new PIXI.filters.BlurFilter();
-    shadowFilter.blur = 5;
-    shadowFilter.quality = PIXI.settings.FILTER_RESOLUTION;
-
+    let fillColor;
+    this.#basketContainer.children.forEach((child) => {
+      if (child instanceof PIXI.Graphics) {
+        if (child.name === "bg") {
+          fillColor = child.fill.color;
+        }
+      }
+    });
+    console.log(PIXI.utils.hex2string(fillColor));
     const square = new PIXI.Graphics();
     square.lineStyle(2, 0xffffff);
+    square.beginFill(fillColor);
     square.drawRoundedRect(x, y, 50, 50, 5); // 绘制矩形
+    square.endFill();
+    square.interactive = true;
+    square.cursor = 'pointer';
     this.#basketContainer.addChild(square);
 
     const line = new PIXI.Graphics();
     line.lineStyle(2, 0xffffff); // 设置线条样式
     line.moveTo(x, y + 10); // 设置起点
     line.lineTo(x + 50, y + 40); // 绘制斜线
-    line.filters = [shadowFilter];
     this.#basketContainer.addChild(line);
+
+
   }
 
   isCollidingWithBasket(sprite) {
