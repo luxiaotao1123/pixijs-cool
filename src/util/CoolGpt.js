@@ -6,8 +6,8 @@ export default class CoolGpt {
 
     static #apiKey = "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";
 
-    #config;
-    #openai;
+    static #config;
+    static #openai;
 
     static get openai() {
         if (!CoolGpt.#config) {
