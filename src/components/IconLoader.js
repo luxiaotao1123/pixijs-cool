@@ -56,7 +56,7 @@ class IconLoader {
 
               // clone
               draggingSprite = new CoolSprite(event.currentTarget.texture.clone()).setBasket(this.#basket);
-              draggingSprite.preprocss(this.#mapContainer, function(sprite) {
+              draggingSprite.preprocss(this.#mapContainer, function (sprite) {
                 sprite.scale.set(originSprite.scale.x);
 
                 sprite.dragData = event.data;
@@ -64,7 +64,7 @@ class IconLoader {
                 sprite.x = originSprite.x;
                 sprite.y = originSprite.y;
               });
-            
+
               this.#basketContainer.parent.addChild(draggingSprite);
 
               this.#basketContainer.parent.on('pointermove', (event) => {
@@ -100,6 +100,8 @@ class IconLoader {
 
     const hrHeight = this.buildHrLine(containerWidth, containerHeight);
 
+    this.newReact(0, hrHeight)
+
     getTools().then(res => {
       let list = res.data.list;
       if (list?.length > 0) {
@@ -119,6 +121,24 @@ class IconLoader {
     hrLine.alpha = .8;
     this.#basketContainer.addChild(hrLine);
     return hrHeight;
+  }
+
+  newReact(x, y) {
+    const shadowFilter = new PIXI.filters.BlurFilter();
+    shadowFilter.blur = 5;
+    shadowFilter.quality = PIXI.settings.FILTER_RESOLUTION;
+
+    const square = new PIXI.Graphics();
+    square.lineStyle(2, 0xffffff);
+    square.drawRoundedRect(x, y, 50, 50, 5); // 绘制矩形
+    this.#basketContainer.addChild(square);
+
+    const line = new PIXI.Graphics();
+    line.lineStyle(2, 0xffffff); // 设置线条样式
+    line.moveTo(x, y + 10); // 设置起点
+    line.lineTo(x + 50, y + 40); // 绘制斜线
+    line.filters = [shadowFilter];
+    this.#basketContainer.addChild(line);
   }
 
   isCollidingWithBasket(sprite) {
