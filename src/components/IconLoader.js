@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js';
 import CoolSprite from '../util/CoolSprite';
-import { getAsset } from '../api/draw/index'
+import { getAsset, getTools } from '../api/draw/index'
 
 class IconLoader {
 
@@ -96,6 +96,15 @@ class IconLoader {
         }
       }
 
+    })
+
+    getTools().then(res => {
+      let list = res.data.list;
+      if (list?.length > 0) {
+        for (let i = 0; i < list.length; i++) {
+          console.log(list[i].name);
+        }
+      }
     })
   }
 
