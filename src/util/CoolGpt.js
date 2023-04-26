@@ -33,7 +33,6 @@ export default class CoolGpt {
                 },
             ],
         });
-        console.log(res);
         const choices = res?.data?.choices;
         if (!choices || choices.length === 0) {
             return null;

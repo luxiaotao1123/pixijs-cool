@@ -82,9 +82,8 @@ window.addEventListener("resize", resize);
 //   console.log(res);
 // });
 
-CoolGpt.ask('Hello').then(response => {
-  console.log(response);
-});
+const res = await CoolGpt.ask('Hello');
+console.log(res);
 </script>
 
 <style lang="less" scoped></style>
