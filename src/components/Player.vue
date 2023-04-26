@@ -97,9 +97,9 @@ async function gpt(msg) {
   return res.data.choices[0].message?.content;
 }
 
-gpt("hello rebot").then(res => {
-  console.log(res);
-});
+// gpt("hello rebot").then(res => {
+//   console.log(res);
+// });
 
 </script>
 
