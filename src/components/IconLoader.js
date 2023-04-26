@@ -98,6 +98,8 @@ class IconLoader {
 
     })
 
+    const hrHeight = this.buildHrLine(containerWidth, containerHeight);
+
     getTools().then(res => {
       let list = res.data.list;
       if (list?.length > 0) {
@@ -106,6 +108,17 @@ class IconLoader {
         }
       }
     })
+  }
+
+  buildHrLine(baskWidth, baskHeight) {
+    const hrHeight = baskHeight / 3
+    const hrLine = new PIXI.Graphics();
+    hrLine.lineStyle(1, 0x7f8fa6);
+    hrLine.moveTo(0, hrHeight);
+    hrLine.lineTo(baskWidth, hrHeight);
+    hrLine.alpha = .8;
+    this.#basketContainer.addChild(hrLine);
+    return hrHeight;
   }
 
   isCollidingWithBasket(sprite) {
