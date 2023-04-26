@@ -2,20 +2,17 @@ import { Configuration, OpenAIApi } from 'openai'
 
 export default class CoolGpt {
 
-    static #organization = "org-GSDrqLKmjbrk4eLEw3UOq6XW";
-
-    static #apiKey = "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";
-
     static #config;
     static #openai;
 
     static get openai() {
         if (!CoolGpt.#config) {
             CoolGpt.#config = new Configuration({
-                organization: CoolGpt.#organization,
-                apiKey: CoolGpt.#apiKey,
+                organization: import.meta.env.COOL_OPENAI_ORGANIZATION,
+                apiKey: import.meta.env.COOL_OPENAI_API_KEY,
             });
             CoolGpt.#config.baseOptions.headers['User-Agent'] = 'CoolGpt/1.0';
+            delete CoolGpt.#config.baseOptions.headers['User-Agent'];
         }
         if (!CoolGpt.#openai) {
             CoolGpt.#openai = new OpenAIApi(CoolGpt.#config);
@@ -25,7 +22,7 @@ export default class CoolGpt {
 
     static async ask(msg) {
         const res = await CoolGpt.openai.createChatCompletion({
-            model: "gpt-3.5-turbo",
+            model: import.meta.env.COOL_OPENAI_MODEL,
             messages: [
                 {
                     role: "user",
@@ -40,4 +37,16 @@ export default class CoolGpt {
         return choices.map((choice) => choice.message.content);
     }
 
+
+    /**
+        import CoolGpt from '../util/CoolGpt';
+        
+        CoolGpt.ask("hello rebot").then(res => {
+            console.log(res);
+        });
+
+        const res = await CoolGpt.ask('Hello');
+        console.log(res);
+     */
+    
 }

@@ -8,7 +8,6 @@ import Basket from './Basket';
 import IconLoader from './IconLoader';
 import CoolSprite from '../util/CoolSprite';
 import LinePainter from '../util/LinePainter';
-import CoolGpt from '../util/CoolGpt';
 
 const props = defineProps({
   title: {
@@ -76,14 +75,6 @@ function resize() {
 }
 window.addEventListener("resize", resize);
 
-// openapi
-
-// CoolGpt.ask("hello rebot").then(res => {
-//   console.log(res);
-// });
-
-const res = await CoolGpt.ask('Hello');
-console.log(res);
 </script>
 
 <style lang="less" scoped></style>
