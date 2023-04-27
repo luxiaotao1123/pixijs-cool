@@ -63,6 +63,9 @@ class LinePainter {
 
                     this.#lineContainer.parent.off('pointerup');
                     this.#lineContainer.parent.on('pointerup', (event) => {
+
+                        
+
                         this.#startPoint = null;
                         this.#endPoint = null;
 
@@ -77,7 +80,11 @@ class LinePainter {
     }
 
     cancelDraw(container) {
-
+        container.children.forEach(sprite => {
+            if (sprite instanceof PIXI.Sprite) {
+                sprite.resetDragEvent();
+            }
+        });
     }
 
 }
