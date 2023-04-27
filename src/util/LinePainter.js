@@ -38,15 +38,16 @@ class LinePainter {
         watch(() => useStore().lineMode, (newVal, oldVal) => {
             if (newVal) {
                 this.draw(this.#mapContainer);
+            } else {
+                this.cancelDraw(this.#mapContainer);
             }
-          }, {
+        }, {
             deep: true
-          })
-          
+        })
+
     }
 
     draw(container) {
-        console.log("====>>");
         container.children.forEach(sprite => {
             if (sprite instanceof PIXI.Sprite) {
                 sprite.off('pointerdown');
@@ -59,7 +60,7 @@ class LinePainter {
                     this.#lineContainer.parent.on('pointermove', (event) => {
                         this.#endPoint = event.global;
                     }, this);
-            
+
                     this.#lineContainer.parent.off('pointerup');
                     this.#lineContainer.parent.on('pointerup', (event) => {
                         this.#startPoint = null;
@@ -72,6 +73,10 @@ class LinePainter {
                 });
             }
         });
+
+    }
+
+    cancelDraw(container) {
 
     }
 
