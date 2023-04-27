@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js';
 import * as TWEEDLE from 'tweedle.js'
 import IconLoader from './IconLoader';
+import * as Constant from '../util/Constant'
 
 class Basket {
 
@@ -19,7 +20,7 @@ class Basket {
         // box
         this.#box = new PIXI.Graphics();
         this.#box.name = "bg";
-        this.#box.beginFill(0x38404E);
+        this.#box.beginFill(Constant.baskBgColor);
         this.#box.drawRoundedRect(0, 0, this.#offset, window.innerHeight, 3);
         this.#box.endFill();
         this.#container.addChild(this.#box);

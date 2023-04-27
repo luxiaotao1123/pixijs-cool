@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js';
 import CoolSprite from '../util/CoolSprite';
 import { getAsset, getTools } from '../api/draw/index'
 import { queryGraphics } from '../util/CommonUtils'
+import * as Constant from '../util/Constant'
 
 class IconLoader {
 
@@ -127,11 +128,11 @@ class IconLoader {
   }
 
   newReact(x, y) {
-    let bgGraphics = queryGraphics(this.#basketContainer, "bg");
-    console.log(bgGraphics);
+    // let bgGraphics = queryGraphics(this.#basketContainer, "bg");
+
     const square = new PIXI.Graphics();
     square.lineStyle(2, 0xffffff);
-    square.beginFill(fillColor);
+    square.beginFill(Constant.baskBgColor);
     square.drawRoundedRect(x, y, 50, 50, 5); // 绘制矩形
     square.endFill();
     square.interactive = true;
@@ -143,7 +144,6 @@ class IconLoader {
     line.moveTo(x, y + 10); // 设置起点
     line.lineTo(x + 50, y + 40); // 绘制斜线
     this.#basketContainer.addChild(line);
-
 
   }
 
