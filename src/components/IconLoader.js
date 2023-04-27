@@ -108,27 +108,25 @@ class IconLoader {
       let list = res.data.list;
       if (list?.length > 0) {
         for (let i = 0; i < list.length; i++) {
-          console.log(list[i].name);
         }
       }
     })
   }
 
   newReact(x, y) {
-    // let bgGraphics = queryGraphics(this.#basketContainer, "bg");
     const square = new PIXI.Graphics();
     square.lineStyle(2, 0xffffff);
     square.beginFill(Constant.baskBgColor);
-    square.drawRoundedRect(x, y, 50, 50, 5); // 绘制矩形
+    square.drawRoundedRect(x, y, 40, 40, 5);
     square.endFill();
     square.interactive = true;
     square.cursor = 'pointer';
     this.#basketContainer.addChild(square);
 
     const line = new PIXI.Graphics();
-    line.lineStyle(2, 0xffffff); // 设置线条样式
-    line.moveTo(x, y + 10); // 设置起点
-    line.lineTo(x + 50, y + 40); // 绘制斜线
+    line.lineStyle(2, 0xffffff);
+    line.moveTo(x, y + 10);
+    line.lineTo(x + 40, y + 30);
     this.#basketContainer.addChild(line);
   }
 
@@ -151,7 +149,7 @@ class IconLoader {
     this.#basketContainer.addChild(hrLine);
     return hrHeight;
   }
-  
+
 }
 
 export default IconLoader;
