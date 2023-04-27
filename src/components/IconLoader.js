@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js';
 import CoolSprite from '../util/CoolSprite';
 import { getAsset, getTools } from '../api/draw/index'
+import { queryGraphics } from '../util/CommonUtils'
 
 class IconLoader {
 
@@ -126,15 +127,8 @@ class IconLoader {
   }
 
   newReact(x, y) {
-    let fillColor;
-    this.#basketContainer.children.forEach((child) => {
-      if (child instanceof PIXI.Graphics) {
-        if (child.name === "bg") {
-          fillColor = child.fill.color;
-        }
-      }
-    });
-    console.log(PIXI.utils.hex2string(fillColor));
+    let bgGraphics = queryGraphics(this.#basketContainer, "bg");
+    console.log(bgGraphics);
     const square = new PIXI.Graphics();
     square.lineStyle(2, 0xffffff);
     square.beginFill(fillColor);
