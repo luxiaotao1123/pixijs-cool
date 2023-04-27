@@ -165,14 +165,15 @@ class IconLoader {
   reactPointerdown(react) {
     react.on("pointerdown", (event) => {
       const bounds = react.getBounds();
+      console.log(bounds);
       if (this.store.lineMode) {
         react.beginFill(0x636e72);
-        react.drawRoundedRect(bounds.x, bounds.y, bounds.width, bounds.height, 0);
-        this.store.lineMode = true;
+        react.drawRoundedRect(bounds.x, bounds.y, bounds.width, bounds.height, 5);
+        this.store.negateLineMode();
       } else {
         react.beginFill(Constant.baskBgColor);
         react.drawRoundedRect(bounds.x, bounds.y, bounds.width, bounds.height, 5);
-        this.store.lineMode = false;
+        this.store.negateLineMode();
       }
       react.endFill();
     }, this);

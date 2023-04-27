@@ -34,7 +34,7 @@ export const useStore = defineStore(Names.TEST, {
     state: () => {
         return {
             baseUrl: "",
-            lineMode: false
+            lineMode: false,
         }
     },
     // 相当于 computed, 修饰一些值
@@ -51,6 +51,9 @@ export const useStore = defineStore(Names.TEST, {
         modifyUrl(val:string) {
             this.baseUrl = val;
         },
+        negateLineMode(val:boolean) {
+            this.lineMode = !this.lineMode;
+        }
     }
 })
 
