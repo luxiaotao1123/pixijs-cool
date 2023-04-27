@@ -138,7 +138,7 @@ class IconLoader {
               let that = this;
               this.reactPointerdown(react, () => that.store.lineMode, () => {
                 that.store.negateLineMode();
-              });
+              }); 
               break
             default:
               break
@@ -175,13 +175,13 @@ class IconLoader {
       const data = react.data;
       react.clear();
       react.lineStyle(1, Constant.toolsColor);
-      if (!fn()) {
-        react.beginFill(0x636e72);
-        react.drawRoundedRect(data.x, data.y, data.width, data.height, 0);
-        fn0();
-      } else {
+      if (fn()) {
         react.beginFill(Constant.baskBgColor);
         react.drawRoundedRect(data.x, data.y, data.width, data.height, data.radius);
+        fn0();
+      } else {
+        react.beginFill(0x636e72);
+        react.drawRoundedRect(data.x, data.y, data.width, data.height, 0);
         fn0();
       }
       react.endFill();
