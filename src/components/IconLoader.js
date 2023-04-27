@@ -41,7 +41,7 @@ class IconLoader {
             let row = Math.floor(i / columnNum);
             let column = i % columnNum;
             let x = column * unitLen + unitLen / 2;
-            let y = row * unitLen + unitLen / 2;
+            let y = row * unitLen + unitLen / 2 + 5;
             character.x = x;
             character.y = y;
 
@@ -102,32 +102,39 @@ class IconLoader {
 
     const hrHeight = this.buildHrLine(containerWidth, containerHeight);
 
-    this.newReact(0, hrHeight)
-
     getTools().then(res => {
       let list = res.data.list;
       if (list?.length > 0) {
         for (let i = 0; i < list.length; i++) {
+
+          // position
+          let row = Math.floor(i / columnNum);
+          let column = i % columnNum;
+          let x = column * unitLen ;
+          let y = row * unitLen + hrHeight + 5;
+
+          this.newReact(x, y, unitLen);
         }
       }
     })
   }
 
-  newReact(x, y) {
+  newReact(x, y, unitLen) {
+    const offset = unitLen / 5;
     const square = new PIXI.Graphics();
-    square.lineStyle(2, 0xffffff);
+    square.lineStyle(1, 0xffffff);
     square.beginFill(Constant.baskBgColor);
-    square.drawRoundedRect(x, y, 40, 40, 5);
+    square.drawRoundedRect(x + offset/2, y + offset/2, unitLen - offset, unitLen - offset, 5);
     square.endFill();
     square.interactive = true;
     square.cursor = 'pointer';
     this.#basketContainer.addChild(square);
 
-    const line = new PIXI.Graphics();
-    line.lineStyle(2, 0xffffff);
-    line.moveTo(x, y + 10);
-    line.lineTo(x + 40, y + 30);
-    this.#basketContainer.addChild(line);
+    // const line = new PIXI.Graphics();
+    // line.lineStyle(2, 0xffffff);
+    // line.moveTo(x, y + 10);
+    // line.lineTo(x + unitLen, y + (unitLen - 10));
+    // this.#basketContainer.addChild(line);
   }
 
   isCollidingWithBasket(sprite) {
@@ -136,7 +143,7 @@ class IconLoader {
     return spriteBounds.x < basketBounds.x + basketBounds.width;
   }
 
-  
+
   buildHrLine(baskWidth, baskHeight) {
     const hrHeight = baskHeight / 3
     const hrLine = new PIXI.Graphics();
