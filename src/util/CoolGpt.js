@@ -21,6 +21,7 @@ export default class CoolGpt {
     }
 
     static async ask(msg) {
+        console.log(msg);
         const res = await CoolGpt.openai.createChatCompletion({
             model: import.meta.env.COOL_OPENAI_MODEL,
             messages: [
@@ -30,6 +31,7 @@ export default class CoolGpt {
                 },
             ],
         });
+        console.log(res);
         const choices = res?.data?.choices;
         if (!choices || choices.length === 0) {
             return null;

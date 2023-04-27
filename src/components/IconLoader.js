@@ -3,6 +3,7 @@ import CoolSprite from '../util/CoolSprite';
 import { getAsset, getTools } from '../api/draw/index'
 import { queryGraphics } from '../util/CommonUtils'
 import * as Constant from '../util/Constant'
+import CoolGpt from '../util/CoolGpt';
 
 class IconLoader {
 
@@ -17,6 +18,11 @@ class IconLoader {
   }
 
   load() {
+
+    CoolGpt.ask("hello chatgpt, can you tell me what your version?").then(res => {
+      console.log(res);
+  });
+
     let containerWidth = this.#basketContainer.width;
     let containerHeight = this.#basketContainer.height;
     let columnNum = Math.floor(6);
@@ -118,10 +124,11 @@ class IconLoader {
           const item = list[i];
           switch (item.name) {
             case "line":
+              const offset = unitLen / 5;
               const line = new PIXI.Graphics();
-              line.lineStyle(2, 0xffffff);
-              line.moveTo(x, y + 10);
-              line.lineTo(x + unitLen, y + (unitLen - 10));
+              line.lineStyle(2, Constant.toolsColor);
+              line.moveTo(x + offset / 2, y + offset / 2 + 10);
+              line.lineTo(x + unitLen - offset/2, y + (unitLen - offset / 2 - 10));
               this.#basketContainer.addChild(line);
               break
             default:
@@ -136,7 +143,7 @@ class IconLoader {
   newReact(x, y, unitLen) {
     const offset = unitLen / 5;
     const react = new PIXI.Graphics();
-    react.lineStyle(1, 0xffffff);
+    react.lineStyle(1, Constant.toolsColor);
     react.beginFill(Constant.baskBgColor);
     react.drawRoundedRect(x + offset / 2, y + offset / 2, unitLen - offset, unitLen - offset, 5);
     react.endFill();
@@ -150,7 +157,6 @@ class IconLoader {
     const basketBounds = this.#basketContainer.getBounds();
     return spriteBounds.x < basketBounds.x + basketBounds.width;
   }
-
 
   buildHrLine(baskWidth, baskHeight) {
     const hrHeight = baskHeight / 3
