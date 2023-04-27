@@ -114,22 +114,8 @@ class IconLoader {
     })
   }
 
-  buildHrLine(baskWidth, baskHeight) {
-    const hrHeight = baskHeight / 3
-    const hrLine = new PIXI.Graphics();
-    hrLine.lineStyle(1, 0x7f8fa6);
-    hrLine.moveTo(0, hrHeight);
-    hrLine.lineTo(baskWidth, hrHeight);
-    hrLine.alpha = .8;
-    hrLine.interactive = true;
-    hrLine.cursor = 'pointer';
-    this.#basketContainer.addChild(hrLine);
-    return hrHeight;
-  }
-
   newReact(x, y) {
     // let bgGraphics = queryGraphics(this.#basketContainer, "bg");
-
     const square = new PIXI.Graphics();
     square.lineStyle(2, 0xffffff);
     square.beginFill(Constant.baskBgColor);
@@ -144,7 +130,6 @@ class IconLoader {
     line.moveTo(x, y + 10); // 设置起点
     line.lineTo(x + 50, y + 40); // 绘制斜线
     this.#basketContainer.addChild(line);
-
   }
 
   isCollidingWithBasket(sprite) {
@@ -153,6 +138,20 @@ class IconLoader {
     return spriteBounds.x < basketBounds.x + basketBounds.width;
   }
 
+  
+  buildHrLine(baskWidth, baskHeight) {
+    const hrHeight = baskHeight / 3
+    const hrLine = new PIXI.Graphics();
+    hrLine.lineStyle(1, 0x7f8fa6);
+    hrLine.moveTo(0, hrHeight);
+    hrLine.lineTo(baskWidth, hrHeight);
+    hrLine.alpha = .8;
+    hrLine.interactive = true;
+    hrLine.cursor = 'pointer';
+    this.#basketContainer.addChild(hrLine);
+    return hrHeight;
+  }
+  
 }
 
 export default IconLoader;
