@@ -1,12 +1,10 @@
 {
     "list": [
         {
-            "name": "flowerTop",
-            "src": "flowerTop.png"
+            "name": "line"
         },
         {
-            "name": "eggHead",
-            "src": "eggHead.png" 
+            "name": "point"
         }
     ]
 }

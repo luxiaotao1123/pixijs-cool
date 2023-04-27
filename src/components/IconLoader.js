@@ -106,14 +106,28 @@ class IconLoader {
       let list = res.data.list;
       if (list?.length > 0) {
         for (let i = 0; i < list.length; i++) {
-
           // position
           let row = Math.floor(i / columnNum);
           let column = i % columnNum;
-          let x = column * unitLen ;
+          let x = column * unitLen;
           let y = row * unitLen + hrHeight + 5;
 
-          this.newReact(x, y, unitLen);
+          let react = this.newReact(x, y, unitLen);
+          this.#basketContainer.addChild(react);
+
+          const item = list[i];
+          switch (item.name) {
+            case "line":
+              const line = new PIXI.Graphics();
+              line.lineStyle(2, 0xffffff);
+              line.moveTo(x, y + 10);
+              line.lineTo(x + unitLen, y + (unitLen - 10));
+              this.#basketContainer.addChild(line);
+              break
+            default:
+              break
+          }
+
         }
       }
     })
@@ -121,20 +135,14 @@ class IconLoader {
 
   newReact(x, y, unitLen) {
     const offset = unitLen / 5;
-    const square = new PIXI.Graphics();
-    square.lineStyle(1, 0xffffff);
-    square.beginFill(Constant.baskBgColor);
-    square.drawRoundedRect(x + offset/2, y + offset/2, unitLen - offset, unitLen - offset, 5);
-    square.endFill();
-    square.interactive = true;
-    square.cursor = 'pointer';
-    this.#basketContainer.addChild(square);
-
-    // const line = new PIXI.Graphics();
-    // line.lineStyle(2, 0xffffff);
-    // line.moveTo(x, y + 10);
-    // line.lineTo(x + unitLen, y + (unitLen - 10));
-    // this.#basketContainer.addChild(line);
+    const react = new PIXI.Graphics();
+    react.lineStyle(1, 0xffffff);
+    react.beginFill(Constant.baskBgColor);
+    react.drawRoundedRect(x + offset / 2, y + offset / 2, unitLen - offset, unitLen - offset, 5);
+    react.endFill();
+    react.interactive = true;
+    react.cursor = 'pointer';
+    return react;
   }
 
   isCollidingWithBasket(sprite) {
