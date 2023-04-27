@@ -52,10 +52,10 @@ const iconLoader = new IconLoader(basketContainer, mapContainer, basket);
 iconLoader.load();
 
 // linePainter ------------------------------
-const linePainter = new LinePainter(app);
-setTimeout(() => {
-  linePainter.draw(mapContainer);
-}, 2000)
+const linePainter = new LinePainter(app, mapContainer);
+// setTimeout(() => {
+//   linePainter.draw(mapContainer);
+// }, 2000)
 
 
 // bunny

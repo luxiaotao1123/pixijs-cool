@@ -1,7 +1,10 @@
 import * as PIXI from 'pixi.js';
+import { watch } from 'vue';
+import { useStore } from '../store/index';
 
 class LinePainter {
 
+    #mapContainer;
     #lineContainer;
 
     #lineStyle;
@@ -11,7 +14,8 @@ class LinePainter {
     #startPoint;
     #endPoint;
 
-    constructor(app) {
+    constructor(app, mapContainer) {
+        this.#mapContainer = mapContainer;
         this.#lineContainer = new PIXI.Container();
         app.stage.addChild(this.#lineContainer);
 
@@ -30,6 +34,15 @@ class LinePainter {
                 this.#lineContainer.addChild(this.#lineStyle);
             }
         });
+
+        watch(() => useStore().lineMode, (newVal, oldVal) => {
+            if (newVal) {
+                this.draw(this.#mapContainer);
+            }
+          }, {
+            deep: true
+          })
+          
     }
 
     draw(container) {
