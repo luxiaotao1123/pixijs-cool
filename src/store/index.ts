@@ -30,10 +30,11 @@ export const piniaPlugin = (options:Options) => {
 }
 
 // store -------
-export const useTestStore = defineStore(Names.TEST, {
+export const useStore = defineStore(Names.TEST, {
     state: () => {
         return {
-            baseUrl: ""
+            baseUrl: "",
+            lineMode: false
         }
     },
     // 相当于 computed, 修饰一些值

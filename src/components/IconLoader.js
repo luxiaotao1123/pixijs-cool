@@ -4,17 +4,20 @@ import { getAsset, getTools } from '../api/draw/index'
 import { queryGraphics } from '../util/CommonUtils'
 import * as Constant from '../util/Constant'
 import CoolGpt from '../util/CoolGpt';
+import { useStore } from '../store/index'
 
 class IconLoader {
 
   #basketContainer;
   #mapContainer;
   #basket;
+  store;
 
   constructor(basketContainer, mapContainer, basket) {
     this.#basketContainer = basketContainer;
     this.#mapContainer = mapContainer;
     this.#basket = basket;
+    this.store = useStore();
   }
 
   load() {
@@ -118,18 +121,23 @@ class IconLoader {
           let x = column * unitLen;
           let y = row * unitLen + hrHeight + 5;
 
-          let react = this.newReact(x, y, unitLen);
+          
+          const item = list[i];
+          let react = this.newReact(x, y, unitLen, item.name);
           this.#basketContainer.addChild(react);
 
-          const item = list[i];
           switch (item.name) {
             case "line":
               const offset = unitLen / 5;
               const line = new PIXI.Graphics();
               line.lineStyle(2, Constant.toolsColor);
-              line.moveTo(x + offset / 2, y + offset / 2 + 10);
-              line.lineTo(x + unitLen - offset / 2, y + (unitLen - offset / 2 - 10));
+              const d = 10;
+              line.moveTo(x + offset / 2, y + offset / 2 + d);
+              line.lineTo(x + unitLen - offset / 2, y + (unitLen - offset / 2 - d));
               this.#basketContainer.addChild(line);
+
+              react.on("pointerdown", (event) => {
+              }, this);
               break
             default:
               break
@@ -150,7 +158,24 @@ class IconLoader {
     react.endFill();
     react.interactive = true;
     react.cursor = 'pointer';
+    this.reactPointerdown(react);
     return react;
+  }
+
+  reactPointerdown(react) {
+    react.on("pointerdown", (event) => {
+      const bounds = react.getBounds();
+      if (this.store.lineMode) {
+        react.beginFill(0x636e72);
+        react.drawRoundedRect(bounds.x, bounds.y, bounds.width, bounds.height, 0);
+        this.store.lineMode = true;
+      } else {
+        react.beginFill(Constant.baskBgColor);
+        react.drawRoundedRect(bounds.x, bounds.y, bounds.width, bounds.height, 5);
+        this.store.lineMode = false;
+      }
+      react.endFill();
+    }, this);
   }
 
   isCollidingWithBasket(sprite) {
