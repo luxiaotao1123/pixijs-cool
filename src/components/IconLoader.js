@@ -150,29 +150,38 @@ class IconLoader {
 
   newReact(x, y, unitLen, name) {
     const offset = unitLen / 5;
+    const bounds = {
+      x: x + offset / 2,
+      y: y + offset / 2,
+      width: unitLen - offset,
+      height: unitLen - offset,
+      radius: 5
+    }
     const react = new PIXI.Graphics();
     react.name = name;
     react.lineStyle(1, Constant.toolsColor);
     react.beginFill(Constant.baskBgColor);
-    react.drawRoundedRect(x + offset / 2, y + offset / 2, unitLen - offset, unitLen - offset, 5);
+    react.drawRoundedRect(bounds.x, bounds.y, bounds.width, bounds.height, bounds.radius);
     react.endFill();
     react.interactive = true;
     react.cursor = 'pointer';
+    react.data = bounds;
     this.reactPointerdown(react);
     return react;
   }
 
   reactPointerdown(react) {
     react.on("pointerdown", (event) => {
-      const bounds = react.getBounds();
-      console.log(bounds);
-      if (this.store.lineMode) {
+      const data = react.data;
+      react.clear();
+      react.lineStyle(1, Constant.toolsColor);
+      if (!this.store.lineMode) {
         react.beginFill(0x636e72);
-        react.drawRoundedRect(bounds.x, bounds.y, bounds.width, bounds.height, 5);
+        react.drawRoundedRect(data.x, data.y, data.width, data.height, 0);
         this.store.negateLineMode();
       } else {
         react.beginFill(Constant.baskBgColor);
-        react.drawRoundedRect(bounds.x, bounds.y, bounds.width, bounds.height, 5);
+        react.drawRoundedRect(data.x, data.y, data.width, data.height, data.radius);
         this.store.negateLineMode();
       }
       react.endFill();
