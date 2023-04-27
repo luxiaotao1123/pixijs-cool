@@ -135,12 +135,10 @@ class IconLoader {
               line.moveTo(x + offset / 2, y + offset / 2 + d);
               line.lineTo(x + unitLen - offset / 2, y + (unitLen - offset / 2 - d));
               this.#basketContainer.addChild(line);
-
-              this.reactPointerdown(react);
-
-              react.on("pointerdown", (event) => {
-                
-              })
+              let that = this;
+              this.reactPointerdown(react, () => that.store.lineMode, () => {
+                that.store.negateLineMode();
+              });
               break
             default:
               break
@@ -172,19 +170,19 @@ class IconLoader {
     return react;
   }
 
-  reactPointerdown(react) {
+  reactPointerdown(react, fn, fn0) {
     react.on("pointerdown", (event) => {
       const data = react.data;
       react.clear();
       react.lineStyle(1, Constant.toolsColor);
-      if (!this.store.lineMode) {
+      if (!fn()) {
         react.beginFill(0x636e72);
         react.drawRoundedRect(data.x, data.y, data.width, data.height, 0);
-        this.store.negateLineMode();
+        fn0();
       } else {
         react.beginFill(Constant.baskBgColor);
         react.drawRoundedRect(data.x, data.y, data.width, data.height, data.radius);
-        this.store.negateLineMode();
+        fn0();
       }
       react.endFill();
     }, this);
