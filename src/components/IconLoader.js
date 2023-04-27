@@ -135,6 +135,12 @@ class IconLoader {
               line.moveTo(x + offset / 2, y + offset / 2 + d);
               line.lineTo(x + unitLen - offset / 2, y + (unitLen - offset / 2 - d));
               this.#basketContainer.addChild(line);
+
+              this.reactPointerdown(react);
+
+              react.on("pointerdown", (event) => {
+                
+              })
               break
             default:
               break
@@ -163,7 +169,6 @@ class IconLoader {
     react.interactive = true;
     react.cursor = 'pointer';
     react.data = bounds;
-    this.reactPointerdown(react);
     return react;
   }
 
