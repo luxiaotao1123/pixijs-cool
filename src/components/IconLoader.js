@@ -19,9 +19,9 @@ class IconLoader {
 
   load() {
 
-    CoolGpt.ask("hello chatgpt, can you tell me what your version?").then(res => {
-      console.log(res);
-  });
+    // CoolGpt.ask("hello chatgpt, can you tell me what your version?").then(res => {
+    //   console.log(res);
+    // });
 
     let containerWidth = this.#basketContainer.width;
     let containerHeight = this.#basketContainer.height;
@@ -128,7 +128,7 @@ class IconLoader {
               const line = new PIXI.Graphics();
               line.lineStyle(2, Constant.toolsColor);
               line.moveTo(x + offset / 2, y + offset / 2 + 10);
-              line.lineTo(x + unitLen - offset/2, y + (unitLen - offset / 2 - 10));
+              line.lineTo(x + unitLen - offset / 2, y + (unitLen - offset / 2 - 10));
               this.#basketContainer.addChild(line);
               break
             default:
@@ -140,9 +140,10 @@ class IconLoader {
     })
   }
 
-  newReact(x, y, unitLen) {
+  newReact(x, y, unitLen, name) {
     const offset = unitLen / 5;
     const react = new PIXI.Graphics();
+    react.name = name;
     react.lineStyle(1, Constant.toolsColor);
     react.beginFill(Constant.baskBgColor);
     react.drawRoundedRect(x + offset / 2, y + offset / 2, unitLen - offset, unitLen - offset, 5);
