@@ -135,9 +135,6 @@ class IconLoader {
               line.moveTo(x + offset / 2, y + offset / 2 + d);
               line.lineTo(x + unitLen - offset / 2, y + (unitLen - offset / 2 - d));
               this.#basketContainer.addChild(line);
-
-              react.on("pointerdown", (event) => {
-              }, this);
               break
             default:
               break
