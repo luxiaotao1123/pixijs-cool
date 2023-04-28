@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js';
 import CoolSprite from '../util/CoolSprite';
 import { getAsset, getTools } from '../api/draw/index'
-import { queryGraphics } from '../util/CommonUtils'
+import { resetToolsMode } from '../util/CommonUtils'
 import * as Constant from '../util/Constant'
 import CoolGpt from '../util/CoolGpt';
 import { useStore } from '../store/index'

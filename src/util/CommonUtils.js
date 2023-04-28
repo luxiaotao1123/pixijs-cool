@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js';
+import { useStore } from '../store/index';
 
 export const queryGraphics = (container, name) => {
     let res;
@@ -38,6 +39,11 @@ export const deepClone = (obj) => {
     }
     return result;
 }
+
+export const resetToolsMode = () => {
+    useStore().resetToolsMode();
+}
+
 /**
  * 函数节流
  * @param {*} fn 

@@ -53,6 +53,9 @@ export const useStore = defineStore(Names.TEST, {
         },
         negateLineMode(val:boolean) {
             this.lineMode = !this.lineMode;
+        },
+        resetToolsMode() {
+            this.lineMode = false;
         }
     }
 })

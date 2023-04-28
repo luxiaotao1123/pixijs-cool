@@ -66,6 +66,7 @@ class LinePainter {
                             if (child.containsPoint(this.#endPoint)) {
 
                                 if (child !== this.#currSprite) {
+                                    console.log(1);
                                     this.newLine(child.position.x, child.position.y);
                                     this.#line.alpha = 1;
                                     container.addChild(this.#line);
