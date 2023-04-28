@@ -44,6 +44,7 @@ class LinePainter {
     draw(container) {
         container.children.forEach(sprite => {
             if (sprite instanceof PIXI.Sprite) {
+                sprite.alpha = .7;
                 sprite.off('pointerdown');
                 sprite.on('pointerdown', () => {
                     this.#currSprite = sprite;
@@ -60,19 +61,18 @@ class LinePainter {
 
                     this.#lineContainer.parent.off('pointerup');
                     this.#lineContainer.parent.on('pointerup', (event) => {
-
-                        container.children.forEach((child) => {
-
-                            if (child.containsPoint(this.#endPoint)) {
-
-                                if (child !== this.#currSprite) {
-                                    console.log(1);
-                                    this.newLine(child.position.x, child.position.y);
-                                    this.#line.alpha = 1;
-                                    container.addChild(this.#line);
+                        this.#lineContainer.parent.off('pointermove');
+                        if (this.#line && this.#startPoint && this.#endPoint) {
+                            container.children.forEach((child) => {
+                                if (child.containsPoint(this.#endPoint)) {
+                                    if (child !== this.#currSprite) {
+                                        this.newLine(child.position.x, child.position.y);
+                                        this.#line.alpha = 1;
+                                        container.addChild(this.#line);
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
 
                         this.#startPoint = null;
                         this.#endPoint = null;
@@ -88,6 +88,7 @@ class LinePainter {
     cancelDraw(container) {
         container.children.forEach(sprite => {
             if (sprite instanceof PIXI.Sprite) {
+                sprite.alpha = 1;
                 sprite.resetDragEvent();
             }
         });
