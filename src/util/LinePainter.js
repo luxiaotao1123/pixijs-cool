@@ -7,9 +7,9 @@ class LinePainter {
     #mapContainer;
     #lineContainer;
 
-    #lineStyle;
-    #defaultColor = 0x2d3436;
+    #line;
     #defaultLineWidth = 2;
+    #defaultColor = 0x2d3436;
 
     #startPoint;
     #endPoint;
@@ -19,19 +19,11 @@ class LinePainter {
         this.#lineContainer = new PIXI.Container();
         app.stage.addChild(this.#lineContainer);
 
-        this.#lineStyle = new PIXI.Graphics();
-        this.#lineStyle.lineStyle(this.#defaultLineWidth, this.#defaultColor);
-
         app.ticker.add(() => {
             this.#lineContainer.removeChildren();
 
-            if (this.#startPoint && this.#endPoint) {
-                this.#lineStyle.clear();
-                this.#lineStyle.lineStyle(this.#defaultLineWidth, this.#defaultColor);
-                this.#lineStyle.moveTo(this.#startPoint.x, this.#startPoint.y);
-                this.#lineStyle.lineTo(this.#endPoint.x, this.#endPoint.y);
-                this.#lineStyle.alpha = .5;
-                this.#lineContainer.addChild(this.#lineStyle);
+            if (this.#line && this.#startPoint && this.#endPoint) {
+                this.newLine(this.#endPoint.x, this.#endPoint.y)
             }
         });
 
@@ -52,6 +44,8 @@ class LinePainter {
             if (sprite instanceof PIXI.Sprite) {
                 sprite.off('pointerdown');
                 sprite.on('pointerdown', () => {
+                    this.#line = new PIXI.Graphics();
+
                     if (!this.#startPoint) {
                         this.#startPoint = sprite.position;
                     }
@@ -63,14 +57,15 @@ class LinePainter {
 
                     this.#lineContainer.parent.off('pointerup');
                     this.#lineContainer.parent.on('pointerup', (event) => {
-
-                        
-
+                        container.children.forEach((child) => {
+                            if (child.containsPoint(this.#endPoint)) {
+                                // this.newLine(child.position.x, child.position.y);
+                                this.#line.alpha = 1;
+                                container.addChild(this.#line);
+                            }
+                        });
                         this.#startPoint = null;
                         this.#endPoint = null;
-
-                        this.#lineStyle.alpha = 1;
-                        container.addChild(this.#lineStyle)
                     }, this);
 
                 });
@@ -85,6 +80,15 @@ class LinePainter {
                 sprite.resetDragEvent();
             }
         });
+    }
+
+    newLine(x, y) {
+        this.#line.clear();
+        this.#line.lineStyle(this.#defaultLineWidth, this.#defaultColor);
+        this.#line.moveTo(this.#startPoint.x, this.#startPoint.y);
+        this.#line.lineTo(x, y);
+        this.#line.alpha = .5;
+        this.#lineContainer.addChild(this.#line);
     }
 
 }
