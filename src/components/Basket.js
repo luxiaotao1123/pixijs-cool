@@ -10,8 +10,8 @@ class Basket {
     #offset;
 
     constructor(app, offset) {
-        this.#container = new PIXI.Container({
-        });
+        this.#container = new PIXI.Container();
+        this.#container.name = "baskContainer";
         app.stage.addChild(this.#container);
         this.#offset = offset;
     }

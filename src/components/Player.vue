@@ -40,6 +40,7 @@ bgContainer.buildBgLine();
 
 // mapContainer ------------------------------
 const mapContainer = new PIXI.Container();
+mapContainer.name = "mapContainer";
 app.stage.addChild(mapContainer);
 
 // backet --------------------------------------

@@ -8,8 +8,8 @@ class BgContainer {
   #container;
 
   constructor(app) {
-    this.#container = new PIXI.Container({
-    });
+    this.#container = new PIXI.Container();
+    this.#container.name = 'bgContainer';
     app.stage.addChild(this.#container);
   }
 

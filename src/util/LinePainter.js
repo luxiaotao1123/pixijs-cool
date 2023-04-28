@@ -19,6 +19,7 @@ class LinePainter {
     constructor(app, mapContainer) {
         this.#mapContainer = mapContainer;
         this.#lineContainer = new PIXI.Container();
+        this.#lineContainer.name = "lineContainer";
         app.stage.addChild(this.#lineContainer);
 
         app.ticker.add(() => {
