@@ -14,6 +14,8 @@ class LinePainter {
     #startPoint;
     #endPoint;
 
+    #currSprite;
+
     constructor(app, mapContainer) {
         this.#mapContainer = mapContainer;
         this.#lineContainer = new PIXI.Container();
@@ -44,6 +46,7 @@ class LinePainter {
             if (sprite instanceof PIXI.Sprite) {
                 sprite.off('pointerdown');
                 sprite.on('pointerdown', () => {
+                    this.#currSprite = sprite;
                     this.#line = new PIXI.Graphics();
 
                     if (!this.#startPoint) {
@@ -57,15 +60,22 @@ class LinePainter {
 
                     this.#lineContainer.parent.off('pointerup');
                     this.#lineContainer.parent.on('pointerup', (event) => {
+
                         container.children.forEach((child) => {
+
                             if (child.containsPoint(this.#endPoint)) {
-                                // this.newLine(child.position.x, child.position.y);
-                                this.#line.alpha = 1;
-                                container.addChild(this.#line);
+
+                                if (child !== this.#currSprite) {
+                                    this.newLine(child.position.x, child.position.y);
+                                    this.#line.alpha = 1;
+                                    container.addChild(this.#line);
+                                }
                             }
                         });
+
                         this.#startPoint = null;
                         this.#endPoint = null;
+                        this.#currSprite = null;
                     }, this);
 
                 });
